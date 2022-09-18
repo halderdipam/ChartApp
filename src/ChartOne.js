@@ -4,6 +4,8 @@ import axios from "axios";
 
 // import From from "./From";
 
+import Table from "./Table";
+
 const ChartOne = () => {
   const [data, setData] = useState([]);
   const [c, setC] = useState([]);
@@ -44,27 +46,13 @@ const ChartOne = () => {
           show: true,
         },
       },
-      // row: {
-      //     colors: undefined,
-      //     opacity: 0.5
-      // },
-      // column: {
-      //     colors: undefined,
-      //     opacity: 0.5
-      // },
-      // padding: {
-      //     top: 0,
-      //     right: 0,
-      //     bottom: 0,
-      //     left: 0
-      // },
     },
   });
 
   const [series, setSeries] = useState([
     {
       name: "calloi",
-      // data: data.calloi,
+
       data: [
         996000, 246000, 145750, 291500, 399000, 2122000, 536500, 476000, 439000,
         207500,
@@ -79,6 +67,9 @@ const ChartOne = () => {
     },
   ]);
   const baseURL = "https://docker.api.srifintech.com/testassignment";
+  const urL = "https://docker.api.srifintech.com/ltp";
+  
+
   useEffect(() => {
     axios
       .post(baseURL, {
@@ -88,7 +79,7 @@ const ChartOne = () => {
         // setData(response.data)
         const d1 = [];
         const d2 = [];
-    
+
         for (const property in response.data) {
           d1.push(property);
         }
@@ -104,16 +95,24 @@ const ChartOne = () => {
             name: d1[2],
             data: d2[2],
           },
-        ];      
-        setSeries(cx)
+        ];
+        setSeries(cx);
       });
-     
-      // setSeries(dd())
-      
-  }, []);
+    demo();
+    // setSeries(dd())
+  }, [value]);
+  const demo = () => {
+    axios
+      .post(urL, {
+        ticker: value,
+      })
+      .then((response) => {
+        console.log(response.data);
+        setData(response.data);
+      });
+  };
 
- 
-console.log(series)
+  // console.log(series)
   // const zip = (a, b) => a.map((k, i) => [k, b[i]]);
 
   const handleChange = (event) => {
@@ -121,8 +120,8 @@ console.log(series)
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    alert(`The name you entered was: ${value}`)
-  }
+    alert(`The name you entered was: ${value}`);
+  };
   console.log(value);
   return (
     <div className="container py-2 mt-5 ml-2">
@@ -134,11 +133,20 @@ console.log(series)
           >
             <div className="card-body">
               <h5 className="card-title">Open Interest</h5>
-              {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
+
               <div>
                 <form onSubmit={handleSubmit}>
                   <div className="form-group">
-                    <label for="exampleFormControlSelect1">Symbol</label>
+                    
+                      <div class="row justify-content-md-center">
+                        <div class="col">Symbol</div>
+                   
+                        <div class="col">{data}</div>
+                        <div class="w-100"></div>
+                        
+                      </div>
+                    
+                    {/* <label for="exampleFormControlSelect1">Symbol</label> */}
 
                     <select
                       className="form-control"
@@ -187,6 +195,7 @@ console.log(series)
             </div>
           </div>
         </div>
+        <Table/>
       </div>
     </div>
   );
