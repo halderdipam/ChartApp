@@ -15,13 +15,13 @@ export default function () {
 
   return (
     <div>
-      <table class="table">
+      <table className="table table-striped table-bordered">
         <thead>
           <tr>
-            <th scope="col">tradingdate</th>
-            <th scope="col">tradingday</th>
-            <th scope="col">tradingholiday</th>
-            <th scope="col">description</th>
+            <th scope="col">Tradingdate</th>
+            <th scope="col">Tradingday</th>
+            <th scope="col">Tradingholiday</th>
+            <th scope="col">Description</th>
           </tr>
         </thead>
         {data.map((i) => {
